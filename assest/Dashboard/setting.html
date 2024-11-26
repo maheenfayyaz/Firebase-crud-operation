@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setting</title>
+    <link rel="icon" href="./asset/images/setting-removebg-preview.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./asset/css/style.css">
+</head>
+<body>
+    <div class="setting">
+        <div class="header">
+            <div class="set-nav">
+                <button class="btn btn-outline-light btn-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Setting</button>
+
+                <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title set-head" id="offcanvasWithBothOptionsLabel">Set your profile as you want..</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <button class="d-block set-btn" data-bs-toggle="modal" data-bs-target="#updateProfileModal">Update Your profile</button>
+                        <button class="d-block set-btn" id="delete-btn">Delete Your profile</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <h5 class="about-head">Setting</h5>
+                <p class="about-para">Set your website by clicking on left side button</p>
+            </div>
+        </div>
+    </div>
+
+   
+    <div class="modal fade" id="updateProfileModal" tabindex="-1" aria-labelledby="updateProfileModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateProfileModalLabel">Update Your Profile</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="updateProfileForm">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">E-mail</label>
+                            <input type="email" class="form-control" id="updateemail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="updatePassword" required>
+                        </div>
+                        <button id="updatedProfile" class="btn btn-primary w-50">Update Profile</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="module" src="../js/firebase.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="../js/app.js"></script>
+</body>
+</html>
