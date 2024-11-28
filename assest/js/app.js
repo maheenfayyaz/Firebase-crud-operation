@@ -207,7 +207,7 @@ let updatedData = async () => {
     }
 };
 
-if (window.location.pathname == '/assest/dashboard/setting') {
+if (window.location.pathname == '/assest/dashboard/setting.html') {
     let updateBtn = document.getElementById("updatedProfile");
     updateBtn.addEventListener("click", updatedData);
 };
