@@ -180,35 +180,38 @@ if (window.location.pathname == "/assest/log-in.html") {
 
 // __________________________________________________update profile_____________________________________________________________________________________
 
-
-let updateProfile = async () => {
+let updatedData = async () => {
+    event.preventDefault();
     let updateEmail = document.getElementById('updateemail').value;
     let updatePassword = document.getElementById('updatePassword').value;
-    let userId = auth.currentUser .uid;
-
+    let user = auth.currentUser ;
+    if (!user) {
+        alert("No user is currently logged in.");
+        return;
+    }
+    if (!updateEmail || !updatePassword) {
+        alert("Please fill in both email and password fields.");
+        return; 
+    }
+    let userId = user.uid;
     try {
-        if (updateEmail) {
-            await auth.currentUser.updateEmail;
-        }
-        if (updatePassword) {
-            await auth.currentUser.updatePassword;
-        }
-
-        // Update Firestore document if you need to store additional user information
         const washingtonRef = doc(db, "users", userId);
         await updateDoc(washingtonRef, {
-            updateEmail: updateEmail
+            email: updateEmail,
         });
         alert("Profile updated successfully.");
+
+    } catch (error) {
+        console.error("Update profile error:", error);
+        alert("Update profile error: " + error.message);
     }
-    catch (error) {
-        alert("Error updating profile: " + error.message);
-    }
-}
-if (window.location.pathname == '/assest/dashboard/setting.html') {
-    let updateBtn = document.getElementById('updatedProfile')
-    updateBtn.addEventListener('click', updateProfile)
-}
+};
+
+if (window.location.pathname == '/assest/dashboard/setting') {
+    let updateBtn = document.getElementById("updatedProfile");
+    updateBtn.addEventListener("click", updatedData);
+};
+
 
 
 
