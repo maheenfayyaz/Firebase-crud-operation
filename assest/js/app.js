@@ -278,7 +278,15 @@ let contactForm = async () => {
         const docRef = await addDoc(collection(db, "contactForm"), {
             ...conData,
         });
-        alert("Your Message request is sent we will responed you later! <br/> Thank You !")
+         Swal.fire({
+            icon: 'success',
+            title: 'Message Sent',
+            text: 'Your message request is sent. We will respond to you later! Thank you!',
+            timer: 5000, 
+            timerProgressBar: true, 
+        }).then(()=>{
+            window.location.reload();
+        })
         console.log("Document written with ID: ", docRef.id);
     } catch (e) {
         console.error("Error adding document: ", e);
