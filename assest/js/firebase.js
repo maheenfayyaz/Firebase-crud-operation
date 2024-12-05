@@ -7,7 +7,14 @@ import {
     sendEmailVerification, 
     signInWithEmailAndPassword, 
     sendPasswordResetEmail, 
-    signOut } 
+    signOut,
+    updateEmail,
+    updatePassword,
+    EmailAuthProvider,
+    reauthenticateWithCredential,
+    onAuthStateChanged,
+    deleteUser
+} 
     from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 import { getFirestore, collection, addDoc, doc, setDoc, getDocs, updateDoc, serverTimestamp,deleteDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
@@ -27,4 +34,4 @@ const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 const db = getFirestore(app);
 
-export{ auth, createUserWithEmailAndPassword, GoogleAuthProvider, provider, signInWithPopup, sendEmailVerification, signInWithEmailAndPassword, sendPasswordResetEmail, signOut, getFirestore, db, collection, addDoc, doc, setDoc, getDocs, updateDoc, serverTimestamp,deleteDoc }
+export{ auth, createUserWithEmailAndPassword, GoogleAuthProvider, provider, signInWithPopup, sendEmailVerification, signInWithEmailAndPassword, sendPasswordResetEmail, signOut, getFirestore, db, collection, addDoc, doc, setDoc, getDocs, updateDoc, serverTimestamp, deleteDoc, deleteDoc,  updateEmail, updatePassword, EmailAuthProvider, reauthenticateWithCredential, onAuthStateChanged, deleteUser }
