@@ -35,7 +35,12 @@ let signUp = () => {
                     lastName: userData.lastName,
                     gender: user.gender,
                 }));
-                alert("Your Account Is Created Successfully");
+                  Swal.fire({
+                    icon: 'success',
+                    title: 'Account Created',
+                    text: 'Your Account Is Created Successfully',
+                    confirmButtonText: 'OK'
+                });
                 setTimeout(function (event) {
                     window.location.href = "./email-validation.html";
                 }, 2000);
@@ -110,17 +115,22 @@ if (window.location.pathname == "/assest/sign-up.html") {
 let sendMail = () => {
     sendEmailVerification(auth.currentUser)
         .then(async () => {
-            alert("Email verification sent!");
+            Swal.fire({
+                icon: 'success',
+                title: 'Email Verification Sent',
+                text: 'A verification email has been sent to your email address.',
+                confirmButtonText: 'OK'
+            });
+            setTimeout(() => {
             window.location.href = "./dashboard/index.html"
-        }
-        )
+            }, 3000);
+        })
 };
 
 if (window.location.pathname == "/assest/email-validation.html") {
     let validation = document.getElementById("verify-email");
     validation.addEventListener("click", sendMail)
 };
-
 // ____________________________________________________log-in____________________________________________________________
 
 let logIn = () => {
@@ -141,10 +151,16 @@ let logIn = () => {
                 uid: user.uid,
                 email: user.email,
             }))
-            alert("Log-In Successfully!")
-            setTimeout (function (event) {
+           Swal.fire({
+                title: 'Log-In Successful!',
+                text: 'You have logged in successfully.',
+                icon: 'success',
+                timer: 8000,
+                timerProgressBar: true,
+            });
+            setTimeout(() => {
                 window.location.href = "./dashboard/index.html"
-            }, 2000);
+            }, 3000);
         })
         .catch((error) => {
             console.error("Login Error:", error.code, error.message);
@@ -157,16 +173,18 @@ if (window.location.pathname == "/assest/log-in.html") {
     logBtn.addEventListener("click", logIn);
 };
 
-// console.log(auth.currentUser);
-
-
 // _________________________________________forget password____________________________________________________________
 
 let forgetPassword = () => {
     const forEmail = document.getElementById("exampleInputEmail1").value;
     sendPasswordResetEmail(auth, forEmail)
         .then(() => {
-            alert("A Password Reset Link Has Been Seen In Your Email")
+              Swal.fire({
+                icon: 'success',
+                title: 'Email Sent',
+                text: 'A Password Reset Link Has Been Sent To Your Email',
+                confirmButtonText: 'OK'
+            });
         })
         .catch((error) => {
             alert(error.code);
@@ -180,26 +198,54 @@ if (window.location.pathname == "/assest/log-in.html") {
 
 // __________________________________________________update profile_____________________________________________________________________________________
 
-let updatedData = async () => {
+
+const updatedData = async (event) => {
     event.preventDefault();
-    let updateEmail = document.getElementById('updateemail').value;
-    let updatePassword = document.getElementById('updatePassword').value;
-    let user = auth.currentUser ;
+
+    const updateEmailValue = document.getElementById('updateemail').value;
+    const currentPassword = document.getElementById('currentPassword').value;
+    const updatePasswordValue = document.getElementById('updatePassword').value;
+    const user = auth.currentUser;
+
     if (!user) {
         alert("No user is currently logged in.");
+        console.log("No user logged in");
         return;
     }
-    if (!updateEmail || !updatePassword) {
-        alert("Please fill in both email and password fields.");
-        return; 
+
+    if (!updateEmailValue || !currentPassword || !updatePasswordValue) {
+        alert("Please fill in email and both password fields.");
+        return;
     }
-    let userId = user.uid;
+    const credential = EmailAuthProvider.credential(user.email, currentPassword);
+
     try {
-        const washingtonRef = doc(db, "users", userId);
-        await updateDoc(washingtonRef, {
-            email: updateEmail,
+        await reauthenticateWithCredential(user, credential);
+        console.log("Reauthentication successful!");
+
+        if (updateEmailValue !== user.email) {
+            console.log("Updating email to:", updateEmailValue);
+            await updateEmail(user, updateEmailValue);
+
+            await sendEmailVerification(user);
+
+            const userDocRef = doc(db, "users", user.uid);
+            await updateDoc(userDocRef, {
+                email: updateEmailValue,
+            });
+        }
+        if (updatePassword) {
+            console.log("Updating password...");
+            await updatePassword(user, updatePasswordValue);
+        }
+
+        Swal.fire({
+            icon: 'success',
+            title: 'Profile Updated',
+            text: 'Profile updated successfully. Please verify your new email address if updated.',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#3085d6',
         });
-        alert("Profile updated successfully.");
 
     } catch (error) {
         console.error("Update profile error:", error);
@@ -207,10 +253,10 @@ let updatedData = async () => {
     }
 };
 
-if (window.location.pathname == '/assest/dashboard/setting.html') {
-    let updateBtn = document.getElementById("updatedProfile");
+if (window.location.pathname === '/assest/dashboard/setting.html') {
+    const updateBtn = document.getElementById("updatedProfile");
     updateBtn.addEventListener("click", updatedData);
-};
+}
 
 
 
@@ -220,9 +266,18 @@ if (window.location.pathname == '/assest/dashboard/setting.html') {
 window.logOut = () => {
     signOut(auth).then(() => {
         localStorage.removeItem('user');
-        alert("Your account is successfully log-out")
-        window.location.href = "/index.html";
-    })
+       Swal.fire({
+                icon: 'success',
+                title: 'Logged Out',
+                text: 'Your account is successfully logged out.',
+                timerProgressBar: true,
+                confirmButtonText: 'OK',
+            });
+            setTimeout(() => {
+            window.location.href = "/index.html"
+                
+            }, 3000);
+        })
         .catch((error) => {
             alert(error.code);
         });
@@ -231,17 +286,29 @@ window.logOut = () => {
 // __________________________________________________delete profile__________________________________________________________________________________
 
 let deleteProfile = async () => {
+    let user = auth.currentUser;
     let userId = auth.currentUser.uid;
     try {
+        await deleteUser(user);
         await deleteDoc(doc(db, "users", userId));
-        alert("your account is successfully deleted")
-        window.location.href = "/index.html";
-    }
-    catch (error) {
-        alert("Delete button dose not work" + error.code)
+        Swal.fire({
+            icon: "success",
+            title: "Account Deleted",
+            text: 'Your account has been successfully deleted.',
+            timer: 8000,
+            timerProgressBar: true,
+        })
+        .then(()=>{
+            window.location.href = "/index.html";
+        })
+       
     }
 
+    catch (error) {
+        alert("Delete button dose not work" + error.message)
+    }
 }
+
 if (window.location.pathname == '/assest/dashboard/setting.html') {
     let deleteBtn = document.getElementById('delete-btn')
     deleteBtn.addEventListener("click", deleteProfile)
