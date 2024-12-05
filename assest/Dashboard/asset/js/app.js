@@ -8,19 +8,21 @@ function updateSlidePosition() {
     cardsContainer.style.transform = 'translateX(-' + currentIndex * cardWidth + 'px)';
 }
 
-nextArrow.addEventListener('click', () => {
-    if (currentIndex < cardsContainer.children.length - 2) {
-        currentIndex++;
-        updateSlidePosition();
-    }
-});
-
-prevArrow.addEventListener('click', () => {
-    if (currentIndex > 0) {
-        currentIndex--;
-        updateSlidePosition();
-    }
-});
+if (window.location.pathname =='/assest/dashboard/index.html') {
+    nextArrow.addEventListener('click', () => {
+        if (currentIndex < cardsContainer.children.length - 2) {
+            currentIndex++;
+            updateSlidePosition();
+        }
+    });
+    
+    prevArrow.addEventListener('click', () => {
+        if (currentIndex > 0) {
+            currentIndex--;
+            updateSlidePosition();
+        }
+    });   
+}
 
 function toggleActive(button) {
     const buttons = document.querySelectorAll('.btn-2');
