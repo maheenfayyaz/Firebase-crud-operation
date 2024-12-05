@@ -33,8 +33,7 @@
         </div>
     </div>
 
-   
-    <div class="modal fade" id="updateProfileModal" tabindex="-1" aria-labelledby="updateProfileModalLabel" aria-hidden="true">
+   <div class="modal fade" id="updateProfileModal" tabindex="-1" aria-labelledby="updateProfileModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -45,13 +44,19 @@
                     <form id="updateProfileForm">
                         <div class="mb-3">
                             <label for="email" class="form-label">E-mail</label>
-                            <input type="email" class="form-control" id="updateemail" required>
+                            <input type="email" placeholder="Updated E-mail" class="form-control" id="updateemail">
                         </div>
                         <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="updatePassword" required>
+                            <label for="password" class="form-label">Current Password</label>
+                            <input type="password" placeholder="Current Password" class="form-control" id="currentPassword" required>
                         </div>
-                        <button id="updatedProfile" class="btn btn-primary w-50">Update Profile</button>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Updatd Password</label>
+                            <input type="password" id="updatePassword" class="form-control"  placeholder="New Password (optional)">
+                        </div>
+
+
+                        <button class="btn btn-primary w-50" id= "updatedProfile">Update Profile</button>
                     </form>
                 </div>
             </div>
